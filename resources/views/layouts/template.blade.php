@@ -50,7 +50,34 @@
             </nav>
         </header>
 
-        @extends('layouts.sidebar')
+
+        <aside class="main-sidebar">
+            <section class="sidebar">
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="{{ asset('images/128x128.png') }}" class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                        @if(Auth::guard('admin')->check())
+                        <p>{{ Auth::guard('admin')->user()->name }}</p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> {{ Auth::guard('admin')->user()->role }}</a>
+                        @else
+                        <p>{{ Auth::guard('franchisee')->user()->name }}</p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> {{ Auth::guard('franchisee')->user()->role }}</a>
+                        @endif
+                    </div>
+                </div>
+                <ul class="sidebar-menu" data-widget="tree">
+                    @if(Auth::guard('admin')->check())
+                    @include('layouts.admin-sidebar')
+                    @else
+                    @include('layouts.franchisee-sidebar')
+                    @endif
+                </ul>
+            </section>
+        </aside>
+
+
 
         <div class="content-wrapper">
             @yield('top-content')
@@ -85,19 +112,20 @@
     @yield('extend-js')
     <script>
     jQuery(document).ready(function($) {
-        $('.preloader').hide(); 
-        $('select').select2();
-        $('.datepicker').datepicker({
-            autoclose: true
-        });
+    $('.preloader').hide(); 
 
-/*        var url = window.location;
-        $('ul.sidebar-menu a').filter(function() {
-            return this.href == url;
-        }).parent().addClass('active');
-        $('ul.treeview-menu a').filter(function() {
-            return this.href == url;
-         }).parentsUntil(".sidebar-menu > .treeview-menu").addClass('active');*/
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    }); 
+
+    $('select').select2();
+
+    $('.datepicker').datepicker({
+        autoclose: true
+    });
+
     });
     </script>
 

@@ -26,19 +26,21 @@ Route::post('franchisee/logout','Auth\FranchiseeController@logout');
 
 
 
-Route::middleware('admin')->group(function() {
+Route::middleware('admin')->namespace('Admin')->prefix('admin')->group(function() {
 
-	Route::get('admin/dashboard', function () {
+	Route::get('dashboard', function () {
 		$active = 'dashboard';
 		return view('modules.admin.dashboard',compact('active'));
 	});
 
+	Route::resource('brands','Brands\BrandController')->except('destroy');
+
 });
 
 
-Route::middleware('franchisee')->group(function() {
+Route::middleware('franchisee')->namespace('Franchisee')->prefix('franchisee')->group(function() {
 
-	Route::get('franchisee/dashboard', function () {
+	Route::get('dashboard', function () {
 		$active = 'dashboard';
 		return view('modules.franchisee.dashboard',compact('active'));
 	});
