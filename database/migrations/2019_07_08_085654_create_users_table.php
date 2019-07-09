@@ -18,8 +18,9 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('username')->unique();
             $table->string('password');
-            $table->string('role');
             $table->integer('status')->default(1);
+            $table->Biginteger('franchisee_id')->unsigned();
+            $table->foreign('franchisee_id')->references('id')->on('franchisees')->onDelete('cascade');
             $table->rememberToken();
             $table->timestamps();
         });

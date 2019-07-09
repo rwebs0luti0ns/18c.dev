@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-    	User::create([
+    	Admin::create([
 			'name' 			=> 'Superadmin',
 			'username' 		=> 'super_admin',
 			'password' 		=> Hash::make('123321'),
