@@ -15,7 +15,7 @@
 
 @section('content')
 
-<form class="box box-solid" id="form-service" method="post" action="{{ url('admin/brands/'.$brand->id) }}">@csrf @method('put')
+<form class="box box-solid" id="form-brand" method="post" action="{{ url('admin/brands/'.$brand->id) }}">@csrf @method('put')
     <div class="box-body row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-group">
             <label>Brand Name: <font color="red">*</font></label>
@@ -33,12 +33,12 @@
 @section('extend-js')
 <script type="text/javascript">
 $(document).ready(function() {
-    $('body').delegate('#form-service', 'submit', function() {
+    $('body').delegate('#form-brand', 'submit', function() {
         event.preventDefault();
         alertify.confirm("Are you sure that you want to submit?",
         function(){
             $('.preloader').show();
-            $('#form-service').submit();
+            $('#form-brand').submit();
         },
         function(){
             alertify.error('Cancel');

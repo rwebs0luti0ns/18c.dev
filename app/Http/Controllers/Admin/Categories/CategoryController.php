@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Brands;
+namespace App\Http\Controllers\Admin\Categories;
 
 use App\Http\Controllers\Controller;
-use App\Models\Brands\Brand;
+use App\Models\Categories\Category;
 use Illuminate\Http\Request;
 
-class BrandController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,20 +17,20 @@ class BrandController extends Controller
     {
 
         if(request()->ajax()) {
-            $brand = Brand::select(['id','name'])->get();
-            return datatables($brand)
-            ->addColumn('action', function ($brand) {
+            $categories = Category::select(['id','name'])->get();
+            return datatables($categories)
+            ->addColumn('action', function ($categories) {
                 $btn  = '<div class="btn-group">';
-                $btn .= '<a class="btn btn-sm btn-flat btn-primary" href="'.url('admin/brands/'.$brand->id).'/edit">Edit</a>';
-                $btn .= '<a class="btn btn-sm btn-flat btn-success" href="'.url('admin/brands/'.$brand->id).'">Show</a>';
+                $btn .= '<a class="btn btn-sm btn-flat btn-primary" href="'.url('admin/categories/'.$categories->id).'/edit">Edit</a>';
+                $btn .= '<a class="btn btn-sm btn-flat btn-success" href="'.url('admin/categories/'.$categories->id).'">Show</a>';
                 $btn .= '</div>';
                 return $btn;
             })
             ->toJson();
         }
 
-        $active = 'brand-page';
-        return view('modules.admin.brands.index',compact('active'));
+        $active = 'category-page';
+        return view('modules.admin.categories.index',compact('active'));
 
     }
 
@@ -42,9 +42,9 @@ class BrandController extends Controller
     public function create()
     {
 
-        $active = 'brand-page';
-        return view('modules.admin.brands.create',compact('active'));
-        
+        $active = 'category-page';
+        return view('modules.admin.categories.create',compact('active'));
+
     }
 
     /**
@@ -57,11 +57,11 @@ class BrandController extends Controller
     {
 
         $request->validate([
-            'name' => 'required|unique:brands,name'
+            'name' => 'required|unique:categories,name'
         ]);
 
-        Brand::create($request->all());
-        return redirect('admin/brands')->with('message','Successfully added new brand!');
+        Category::create($request->all());
+        return redirect('admin/categories')->with('message','Successfully added new category!');
 
     }
 
@@ -71,9 +71,9 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Brand $brand)
+    public function show(Category $category)
     {
-
+        //
     }
 
     /**
@@ -82,11 +82,11 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Brand $brand)
+    public function edit(Category $category)
     {
 
-        $active = 'brand-page';
-        return view('modules.admin.brands.edit',compact('active','brand'));
+        $active = 'category-page';
+        return view('modules.admin.categories.edit',compact('active','category'));
 
     }
 
@@ -97,15 +97,15 @@ class BrandController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Brand $brand)
+    public function update(Request $request, Category $category)
     {
 
         $request->validate([
-            'name' => 'required|unique:brands,name,'.$brand->id
+            'name' => 'required|unique:categories,name,'.$category->id
         ]);
 
-        $brand->update($request->all());
-        return redirect('admin/brands')->with('message','Successfully updated brand name!');
+        $category->update($request->all());
+        return redirect('admin/categories')->with('message','Successfully updated category name!');
 
     }
 
