@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\UnitCapacities;
 
 use App\Http\Controllers\Controller;
+use App\Models\Items\Item;
 use App\Models\UnitCapacities\UnitCapacity;
 use Illuminate\Http\Request;
 
@@ -73,7 +74,39 @@ class UnitCapacityController extends Controller
      */
     public function show(UnitCapacity $unit_capacity)
     {
-        //
+
+        if(request()->ajax()) {
+            $items = Item::select(['id','item_code','srp','brand_id','product_id','category_id','unit_capacity_id','active'])->where('unit_capacity_id',$unit_capacity->id)->latest()->get();
+            return datatables($items)
+            ->editColumn('srp', function ($items) {
+                return number_format($items->srp, 2);
+            })
+            ->editColumn('brand_id', function ($items) {
+                return $items->brand->name;
+            })
+            ->editColumn('product_id', function ($items) {
+                return $items->product->name;
+            })
+            ->editColumn('category_id', function ($items) {
+                return $items->category->name;
+            })
+            ->editColumn('active', function ($items) {
+                if ($items->active) {
+                    return '<label class="badge bg-green"><i class="fa fa-thumbs-up"></i></label>';
+                } else {
+                    return '<label class="badge bg-red"><i class="fa fa-thumbs-down"></i></label>';
+                }
+            })
+            ->addColumn('action', function ($items) {
+                return '<a class="btn btn-sm btn-flat btn-primary" href='.url('admin/items/'.$items->id).'/edit>Edit</a>';
+            })
+            ->rawColumns(['active'=>'active','action'=>'action'])
+            ->toJson();
+        }
+
+        $active = 'unit-capacity-page';
+        return view('modules.admin.unit-capacities.show',compact('active','unit_capacity'));
+
     }
 
     /**

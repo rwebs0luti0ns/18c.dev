@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Categories;
 
 use App\Http\Controllers\Controller;
 use App\Models\Categories\Category;
+use App\Models\Items\Item;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
@@ -73,7 +74,39 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+
+        if(request()->ajax()) {
+            $items = Item::select(['id','item_code','srp','brand_id','product_id','category_id','unit_capacity_id','active'])->where('category_id',$category->id)->latest()->get();
+            return datatables($items)
+            ->editColumn('srp', function ($items) {
+                return number_format($items->srp, 2);
+            })
+            ->editColumn('brand_id', function ($items) {
+                return $items->brand->name;
+            })
+            ->editColumn('product_id', function ($items) {
+                return $items->product->name;
+            })
+            ->editColumn('unit_capacity_id', function ($items) {
+                return $items->unit_capacity->name;
+            })
+            ->editColumn('active', function ($items) {
+                if ($items->active) {
+                    return '<label class="badge bg-green"><i class="fa fa-thumbs-up"></i></label>';
+                } else {
+                    return '<label class="badge bg-red"><i class="fa fa-thumbs-down"></i></label>';
+                }
+            })
+            ->addColumn('action', function ($items) {
+                return '<a class="btn btn-sm btn-flat btn-primary" href='.url('admin/items/'.$items->id).'/edit>Edit</a>';
+            })
+            ->rawColumns(['active'=>'active','action'=>'action'])
+            ->toJson();
+        }
+
+        $active = 'category-page';
+        return view('modules.admin.categories.show',compact('active','category'));
+
     }
 
     /**

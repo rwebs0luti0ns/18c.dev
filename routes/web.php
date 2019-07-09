@@ -37,6 +37,7 @@ Route::middleware('admin')->namespace('Admin')->prefix('admin')->group(function(
 	Route::resource('categories','Categories\CategoryController')->except('destroy');
 	Route::resource('products','Products\ProductController')->except('destroy');
 	Route::resource('unit-capacities','UnitCapacities\UnitCapacityController')->except('destroy');
+	Route::resource('items','Items\ItemController')->except('destroy');
 
 });
 
