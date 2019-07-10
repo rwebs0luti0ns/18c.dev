@@ -12,9 +12,7 @@
     </ol>
 </section>
 @stop
-
 @section('content')
-
 <form class="box box-solid" id="form-franchisee" method="post" action="{{ url('admin/franchisees/'.$franchisee->id) }}">@csrf @method('put')
     <div class="box-body row">
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-group">
@@ -43,9 +41,7 @@
         <button type="submit" class="btn btn-sm btn-flat btn-success pull-right">Submit</button>
     </div>
 </form>
-
 @stop
-
 @section('extend-js')
 <script type="text/javascript">
 $(document).ready(function() {

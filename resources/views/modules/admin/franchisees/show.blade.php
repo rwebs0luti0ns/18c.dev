@@ -14,7 +14,6 @@
 @stop
 
 @section('content')
-
 <div class="row">
     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
         <div class="box box-success">
@@ -71,10 +70,23 @@
                                     <th>Username</th>
                                     <th>Status</th>
                                     <th>
-                                        <a href="#" data-toggle="modal" data-target="#myAddUserModal"><i class="fa fa-plus"></i> User</a>
+                                        <a href="{{url('admin/franchisees/'.$franchisee->id)}}/create"><i class="fa fa-plus"></i> User</a>
                                     </th>
                                 </tr>
                             </thead>
+                            <tbody>
+                            @foreach($franchisee->users as $user)
+                                <tr>
+                                    <td>{{$user->name}}</td>
+                                    <td>{{$user->username}}</td>
+                                    <td>{{$user->status ? 'active' : 'non-active'}}</td>
+                                    <td>
+                                        <a href="{{url('admin/franchisees/'.$user->id)}}/editUser" class="btn btn-sm btn-flat btn-primary">Edit</a>
+                                        <button class="btn btn-sm btn-flat btn-success btn-change-pass" data-id="{{ $user->id }}">Change Password</button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -82,18 +94,57 @@
         </div>
     </div>
 </div>
+<!-- Modal -->
+<form class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" method="post" action="{{ url('admin/franchisees/userChangePassword') }}">@csrf
+    <input type="hidden" id="userId" name="userId">
+    <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">User Change Password</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label>New Password: <font color="red">*</font></label>
+                <input type="password" class="form-control" value="" id="new_password" name="password" required="" placeholder="New Password">
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary btn-flat btn-sm">Update</button>
+            </div>
+        </div>
+    </div>
+</form>
 @stop
-
 
 @section('extend-js')
 <script type="text/javascript">
+
 $(document).ready(function() {
     $('table').DataTable({
         ordering:false,
         lengthChange: false,
     });
-
 });
+
+$('body').delegate('.btn-change-pass', 'click', function(event) {
+    let id = $(this).data('id');
+    $('#userId').val(id);
+    $('#changePasswordModal').modal('show');
+});
+
+$('body').delegate('#changePasswordModal', 'submit', function() {
+    event.preventDefault();
+    alertify.confirm("Are you sure that you want to submit?",
+    function(){
+        $('.preloader').show();
+        $('#changePasswordModal').submit();
+    },
+    function(){
+        alertify.error('Cancel');
+    }).setHeader('<em> Warning! </em> ');
+});
+
 </script>
 @stop
 

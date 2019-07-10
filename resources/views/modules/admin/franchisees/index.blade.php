@@ -48,7 +48,6 @@
         </table>
     </div>
 </div>
-
 @stop
 @section('extend-js')
 <script type="text/javascript">

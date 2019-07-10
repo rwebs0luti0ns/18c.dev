@@ -18,7 +18,7 @@ class Franchisee extends Model
 
 	public function users()
 	{
-		$this->hasMany(User::class, 'franchisee_id');
+		return $this->hasMany(User::class, 'franchisee_id');
 	}
     
 }

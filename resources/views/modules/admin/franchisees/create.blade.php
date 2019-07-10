@@ -15,7 +15,7 @@
 
 @section('content')
 
-<form class="box box-solid" id="form-franchisee" method="post" action="{{ url('admin/franchisees') }}">@csrf
+<form class="box box-solid" id="form-franchisee" method="post" action="{{url('admin/franchisees')}}">@csrf
     <div class="box-body row">
         <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 form-group">
             <label>ID Code: <font color="red">*</font></label>

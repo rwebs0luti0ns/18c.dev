@@ -32,16 +32,21 @@ Route::middleware('admin')->namespace('Admin')->prefix('admin')->group(function(
 		$active = 'dashboard';
 		return view('modules.admin.dashboard',compact('active'));
 	});
-
+	
+	Route::get('franchisees/{id}/create','admin.franchisees.FranchiseeController@createuser');
 	Route::resource('brands','Brands\BrandController')->except('destroy');
 	Route::resource('categories','Categories\CategoryController')->except('destroy');
 	Route::resource('products','Products\ProductController')->except('destroy');
 	Route::resource('unit-capacities','UnitCapacities\UnitCapacityController')->except('destroy');
 	Route::resource('items','Items\ItemController')->except('destroy');
 	Route::resource('franchisees','Franchisees\FranchiseeController')->except('destroy');
+	Route::get('franchisees/{id}/create','Users\UserController@create');
+	Route::post('franchisees/{id}/store','Users\UserController@store');
+	Route::get('franchisees/{id}/editUser','Users\UserController@edit');
+	Route::post('franchisees/{id}/userUpdate','Users\UserController@update');
+	Route::post('franchisees/userChangePassword','Users\UserController@changePassword');
 
 });
-
 
 Route::middleware('franchisee')->namespace('Franchisee')->prefix('franchisee')->group(function() {
 
