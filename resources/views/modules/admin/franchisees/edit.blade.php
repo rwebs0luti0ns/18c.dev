@@ -39,7 +39,7 @@
         </div>
     </div>
     <div class="box-footer">
-        <a href="{{ url('admin/franchisees') }}" class="btn btn-sm btn-flat btn-github">Back</a>
+        <a href="{{ url('admin/franchisees/'.$franchisee->id) }}" class="btn btn-sm btn-flat btn-github">Back</a>
         <button type="submit" class="btn btn-sm btn-flat btn-success pull-right">Submit</button>
     </div>
 </form>
