@@ -4,6 +4,8 @@ namespace App\Models\Franchisees;
 
 use App\Models\Auth\User;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Customers\Customer;
+
 
 class Franchisee extends Model
 {
@@ -20,5 +22,10 @@ class Franchisee extends Model
 	{
 		return $this->hasMany(User::class, 'franchisee_id');
 	}
+
+    public function customers()
+    {
+        return $this->hasMany(Customer::class, 'franchisee_id');
+    }
     
 }

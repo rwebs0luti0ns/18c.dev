@@ -47,14 +47,15 @@ Route::middleware('admin')->namespace('Admin')->prefix('admin')->group(function(
 	Route::post('franchisees/userChangePassword','Users\UserController@changePassword');
 
 });
-
 Route::middleware('franchisee')->namespace('Franchisee')->prefix('franchisee')->group(function() {
 
 	Route::get('dashboard', function () {
 		$active = 'dashboard';
 		return view('modules.franchisee.dashboard',compact('active'));
 	});
-
+	Route::resource('/customers','Customers\CustomerController');
+	Route::get('/purchases','PurchaseOrders\PurchaseOrderController@index');
+	Route::resource('/quotations','Quotations\QuotationController');
 });
 
 

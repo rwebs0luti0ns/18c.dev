@@ -2,6 +2,7 @@
 
 namespace App\Models\Auth;
 
+use App\Models\Franchisees\Franchisee;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Hash;
 
@@ -21,5 +22,9 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = Hash::make($value);
     }
-
+    
+    public function franchisee()
+    {
+        return $this->belongsTo(Franchisee::class, 'franchisee_id');
+    }
 }
