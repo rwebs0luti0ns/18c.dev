@@ -23,9 +23,6 @@ class ItemController extends Controller
         if(request()->ajax()) {
             $items = Item::select(['id','item_code','srp','brand_id','product_id','category_id','unit_capacity_id','active'])->latest()->get();
             return datatables($items)
-            ->editColumn('srp', function ($items) {
-                return number_format($items->srp, 2);
-            })
             ->editColumn('brand_id', function ($items) {
                 return $items->brand->name;
             })
