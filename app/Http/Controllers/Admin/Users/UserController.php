@@ -22,7 +22,7 @@ class UserController extends Controller
 		$request->validate([
 			'name'		=>	'required',
 			'username'	=>	'required|unique:users,username',
-			'password'	=>	'required|min:10'
+			'password'	=>	'required|min:6'
 		]);
 
 		$input = $request->all();
@@ -58,7 +58,7 @@ class UserController extends Controller
 	{
 
 		$request->validate([
-			'password'	=>	'required|min:8'
+			'password'	=>	'required|min:6'
 		]);
 
 		$user = User::findOrFail($request->userId);

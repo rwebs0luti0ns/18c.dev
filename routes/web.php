@@ -33,7 +33,6 @@ Route::middleware('admin')->namespace('Admin')->prefix('admin')->group(function(
 		return view('modules.admin.dashboard',compact('active'));
 	});
 	
-	Route::get('franchisees/{id}/create','admin.franchisees.FranchiseeController@createuser');
 	Route::resource('brands','Brands\BrandController')->except('destroy');
 	Route::resource('categories','Categories\CategoryController')->except('destroy');
 	Route::resource('products','Products\ProductController')->except('destroy');
@@ -45,6 +44,7 @@ Route::middleware('admin')->namespace('Admin')->prefix('admin')->group(function(
 	Route::get('franchisees/{id}/editUser','Users\UserController@edit');
 	Route::post('franchisees/{id}/userUpdate','Users\UserController@update');
 	Route::post('franchisees/userChangePassword','Users\UserController@changePassword');
+	Route::get('franchisees/{id}/create','Users\UserController@create');
 
 });
 
@@ -54,6 +54,9 @@ Route::middleware('franchisee')->namespace('Franchisee')->prefix('franchisee')->
 		$active = 'dashboard';
 		return view('modules.franchisee.dashboard',compact('active'));
 	});
+
+	Route::resource('customers','Customers\CustomerController')->except('destroy');
+
 
 });
 
